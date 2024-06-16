@@ -1,82 +1,101 @@
-import 'package:aula_flutter/app/database/sqlite/dao/contact_dao_impl.dart';
 import 'package:aula_flutter/app/domain/entities/contact.dart';
+import 'package:aula_flutter/app/view/contact_list_back.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../my_app.dart';
 
-class ContactList  extends StatelessWidget {
+class ContactList extends StatelessWidget {
+  final _back = ContactListBack();
 
-  Future<List<Contact>> _buscar() async{
-    return ContactDaoImpl().find();
+  CircleAvatar circleAvatar(String url){
+    try{
+      return CircleAvatar(backgroundImage: NetworkImage(url));
+    }catch(e){
+      return CircleAvatar(child: Icon(Icons.person));
+    }
+  }
+
+  Widget iconEditButton(void Function()? onPressed){
+    return IconButton(icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);
+  }
+
+   Widget iconRemoveButton(BuildContext context, void Function()? remove){
+    return IconButton(
+      icon: Icon(Icons.delete), 
+      color: Colors.red, 
+      onPressed: () {
+        showDialog(
+          context: context, 
+          builder:  (context) => AlertDialog(
+            title: Text('Excluir'),
+            content: Text('Confirma a Exclusão?'),
+            actions: [
+              TextButton(
+                child: Text('Não'), 
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Sim'),
+                onPressed: remove,
+              ),
+            ],
+          )
+        );
+      }
+    );
   }
 
   @override
-   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _buscar(),
-      builder: (context, futuro) {
-        if (futuro.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Lista de Contatos'),
-            ),
-            body: const Center(child: CircularProgressIndicator()),
-          );
-        } else if (futuro.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Lista de Contatos'),
-            ),
-            body: Center(child: Text('Erro: ${futuro.error}')),
-          );
-        } else if (futuro.hasData) {
-          List<Contact>? lista = futuro.data;
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Lista de Contatos'),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(MyApp.CONTACT_FORM);
-                  },
-                ),
-              ],
-            ),
-            body: ListView.builder(
-              itemCount: lista!.length,
-              itemBuilder: (context, i) {
-                var contato = lista[i];
-                var avatar = CircleAvatar(
-                  backgroundImage: NetworkImage(contato.urlAvatar),
-                );
-                return ListTile(
-                  leading: avatar,
-                  title: Text(contato.nome),
-                  subtitle: Text(contato.telefone),
-                  trailing: SizedBox(
-                    width: 100,
-                    child: Row(
-                      children: [
-                        IconButton(icon: Icon(Icons.edit), onPressed: () {}),
-                        IconButton(icon: Icon(Icons.delete), onPressed: () {}),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Lista de Contatos'),
-            ),
-            body: const Center(child: Text('Nenhum contato encontrado')),
-          );
-        }
-      },
-    );
-    
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Lista de Contatos'),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(MyApp.CONTACT_FORM);
+                })
+          ],
+        ),
+        body: Observer(builder: (context) {
+          return FutureBuilder(
+              future: _back.list,
+              builder: (context, futuro) {
+                if (!futuro.hasData) {
+                  return CircularProgressIndicator();
+                } else {
+                  List<Contact>? lista = futuro.data;
+                  return ListView.builder(
+                    itemCount: lista?.length,
+                    itemBuilder: (context, i) {
+                      var contato = lista![i];
+                      return ListTile(
+                        leading: circleAvatar(contato.urlAvatar),
+                        title: Text(contato.nome),
+                        subtitle: Text(contato.telefone),
+                        trailing: Container(
+                          width: 100,
+                          child: Row(
+                            children: [
+                              iconEditButton((){
+                                _back.goToForm(context, contato);
+                              }),
+                              iconRemoveButton(context, (){
+                                _back.remove(contato.id);
+                                Navigator.of(context).pop();
+                              })
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+              });
+        }));
   }
 }

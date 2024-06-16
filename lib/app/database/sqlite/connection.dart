@@ -13,6 +13,7 @@ class Connection{
         databaseFactory = databaseFactoryFfiWeb;
       }
       var path = join(await getDatabasesPath(), 'banco_contatos');
+      deleteDatabase(path);
       _db = await openDatabase(
         path,
         version: 1,
