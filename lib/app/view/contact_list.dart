@@ -8,44 +8,49 @@ import '../my_app.dart';
 class ContactList extends StatelessWidget {
   final _back = ContactListBack();
 
-  CircleAvatar circleAvatar(String url){
-    try{
+  CircleAvatar circleAvatar(String url) {
+    return (Uri.tryParse(url)!.isAbsolute)
+        ? CircleAvatar(backgroundImage: NetworkImage(url))
+        : CircleAvatar(child: Icon(Icons.person));
+
+    //O código acima é igual a:
+    
+    /* if(Uri.tryParse(url)!.isAbsolute){
       return CircleAvatar(backgroundImage: NetworkImage(url));
-    }catch(e){
+    }else{
       return CircleAvatar(child: Icon(Icons.person));
-    }
+    }*/
   }
 
-  Widget iconEditButton(void Function()? onPressed){
-    return IconButton(icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);
-  }
-
-   Widget iconRemoveButton(BuildContext context, void Function()? remove){
+  Widget iconEditButton(void Function()? onPressed) {
     return IconButton(
-      icon: Icon(Icons.delete), 
-      color: Colors.red, 
-      onPressed: () {
-        showDialog(
-          context: context, 
-          builder:  (context) => AlertDialog(
-            title: Text('Excluir'),
-            content: Text('Confirma a Exclusão?'),
-            actions: [
-              TextButton(
-                child: Text('Não'), 
-                onPressed: (){
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('Sim'),
-                onPressed: remove,
-              ),
-            ],
-          )
-        );
-      }
-    );
+        icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);
+  }
+
+  Widget iconRemoveButton(BuildContext context, void Function()? remove) {
+    return IconButton(
+        icon: Icon(Icons.delete),
+        color: Colors.red,
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                    title: Text('Excluir'),
+                    content: Text('Confirma a Exclusão?'),
+                    actions: [
+                      TextButton(
+                        child: Text('Não'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Sim'),
+                        onPressed: remove,
+                      ),
+                    ],
+                  ));
+        });
   }
 
   @override
@@ -81,10 +86,10 @@ class ContactList extends StatelessWidget {
                           width: 100,
                           child: Row(
                             children: [
-                              iconEditButton((){
+                              iconEditButton(() {
                                 _back.goToForm(context, contato);
                               }),
-                              iconRemoveButton(context, (){
+                              iconRemoveButton(context, () {
                                 _back.remove(contato.id);
                                 Navigator.of(context).pop();
                               })
