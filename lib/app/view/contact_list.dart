@@ -79,9 +79,9 @@ class ContactList extends StatelessWidget {
                     itemBuilder: (context, i) {
                       var contato = lista![i];
                       return ListTile(
-                        leading: circleAvatar(contato.urlAvatar),
-                        title: Text(contato.nome),
-                        subtitle: Text(contato.telefone),
+                        leading: circleAvatar(contato.urlAvatar!),
+                        title: Text(contato.nome!),
+                        subtitle: Text(contato.telefone!),
                         trailing: Container(
                           width: 100,
                           child: Row(
@@ -90,7 +90,7 @@ class ContactList extends StatelessWidget {
                                 _back.goToForm(context, contato);
                               }),
                               iconRemoveButton(context, () {
-                                _back.remove(contato.id);
+                                _back.remove(contato.id!);
                                 Navigator.of(context).pop();
                               })
                             ],
