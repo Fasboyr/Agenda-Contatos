@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 
 class ContactDetails extends StatelessWidget {
 
+  showModalError(BuildContext context){
+    var alert = AlertDialog(
+          title: Text('Alerta!'),
+          content: Text('Não foi possível encontrar um app compatível'),
+        );
+        showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return alert;
+          }
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +29,7 @@ class ContactDetails extends StatelessWidget {
 
         return Scaffold(
           body: ListView(
+            padding: EdgeInsets.all(60),
             children: [
               (Uri.tryParse(contact.urlAvatar as String)!.isAbsolute) ?
                 CircleAvatar(
@@ -36,11 +49,34 @@ class ContactDetails extends StatelessWidget {
                 child: ListTile(
                   title: Text('Telefone:'),
                   subtitle: Text('${contact.telefone}'),
+                  trailing: Container(
+                    width: width/4,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          color: Colors.blue,                        
+                          icon: Icon(Icons.message),
+                          onPressed: (){
+                            _back.launchSMS(showModalError);
+                            }
+                          ),
+                        IconButton(
+                          color: Colors.blue,                        
+                          icon: Icon(Icons.phone),
+                          onPressed: (){
+                            _back.launchPhone(showModalError);
+                          }
+                          ),
+                      ],),
+                  ),
                 ),
               ),
                Card(
                 child: ListTile(
                   title: Text('E-mail:'),
+                  onTap: (){
+                    _back.launchEmail(showModalError); 
+                  },
                   subtitle: Text('${contact.email}'),
                 ),
               ),
