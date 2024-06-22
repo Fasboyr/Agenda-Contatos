@@ -4,23 +4,19 @@ import 'package:aula_flutter/app/domain/services/contact_service.dart';
 import 'package:aula_flutter/app/domain/exception/domain_layer_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 
-part 'contact_form_back.g.dart';
 
-class ContactFormBack = _ContactFormBack with _$ContactFormBack;
 
-abstract class _ContactFormBack with Store {
+class  ContactFormBack {
   late Contact contact;
   var _service = GetIt.I.get<ContactService>();
   late bool _nameIsValid;
   late bool _emailIsValid;
   late bool _phoneIsValid;
 
-  @action
   bool get isValid => _nameIsValid && _emailIsValid && _phoneIsValid;
 
-  _ContactFormBack(BuildContext context) {
+  ContactFormBack(BuildContext context) {
     var parameter = ModalRoute.of(context)!.settings.arguments;
     contact = (parameter == null) ? Contact() : parameter as Contact;
   }
@@ -39,7 +35,7 @@ abstract class _ContactFormBack with Store {
       if (e is DomainLayerException) {
       return e.cause;
       }
-      return 'Erro desconhecido';
+      return 'Erro: Dados Inválidos';
     }
   }
   
@@ -53,7 +49,7 @@ abstract class _ContactFormBack with Store {
       if (e is DomainLayerException) {
       return e.cause;
       }
-      return 'Erro desconhecido';
+      return 'Erro: Dados Inválidos';
     }
   }
   
@@ -67,7 +63,7 @@ abstract class _ContactFormBack with Store {
       if (e is DomainLayerException) {
       return e.cause;
       }
-      return 'Erro desconhecido';
+      return 'Erro: Dados Inválidos';
     }
   }
 }
