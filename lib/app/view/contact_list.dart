@@ -82,7 +82,7 @@ class ContactList extends StatelessWidget {
                         leading: circleAvatar(contato.urlAvatar!),
                         title: Text(contato.nome!),
                         onTap: (){
-                          _back.goToDetails(context);
+                          _back.goToDetails(context,contato);                        
                         },
                         subtitle: Text(contato.telefone!),
                         trailing: Container(
