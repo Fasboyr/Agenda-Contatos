@@ -20,25 +20,17 @@ class ContactDetailsBack{
     await canLaunchUrl(uri)? await launchUrl(uri) : showModalError(context);
   }
 
-  launchPhone(String url, Function(BuildContext context) showModalError){
+  launchPhone(Function(BuildContext context) showModalError){
     _launchApp('tel:${contact.telefone}', showModalError);
   }
 
-  launchSMS(String url, Function(BuildContext context) showModalError){
+  launchSMS(Function(BuildContext context) showModalError){
     _launchApp('sms:${contact.telefone}', showModalError);
   }
 
-  launchEmail(String url, Function(BuildContext context) showModalError){
+  launchEmail(Function(BuildContext context) showModalError){
     _launchApp('mailto:${contact.email}', showModalError);
   }
 
-  /*showDialog(
-      context: context,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text('Alerta!'),
-          content: Text('Não foi possível encontrar um app compatível'),
-        );
-      }
-    );*/
+
 }
