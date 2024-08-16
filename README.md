@@ -1,16 +1,21 @@
-# aula_flutter
+# Curso Flutter
 
-A new Flutter project.
+Este é um projeto didático foi desenvolvido seguindo o [curso online](https://www.youtube.com/playlist?list=PLg5-aZqPjMmBmCIgUZ0kNtoE7KJfvJZXS) do professor Hélio Kamakawa.
 
-## Getting Started
+Ao longo da playlist, o professor instrui a criação de uma Agenda de Contatos usando o Flutter, ensinando os fundamentos do Framework, da lógica de programação e boas práticas de programação ao longo dos vídeos 
 
-This project is a starting point for a Flutter application.
+## Conteúdos Aprendidos
 
-A few resources to get you started if this is your first Flutter project:
+- Instalação, Configuração e Execução de Flutter, Git/GitHub e VSCode
+- Lógica de Programação (Variáveis, IF/ELSE, Loops, Funções e Métodos)
+- Função Anônima, Arrow Function, Função Lambda
+- Stateful Widget e Stateless Widget
+- ListView e ListTile
+- Rotas nomeadas
+- Future, sync, await
+- Implementação e uso da dependencia SQLite
+- Padrões de projeto (DAO)
+- Gestão de Estado com MobX
+- Integração com APP externo - Telefone, SMS, E-mail
+- Integração com banco de dados FireStore/FireBase
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
