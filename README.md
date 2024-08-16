@@ -4,6 +4,13 @@ Este é um projeto didático foi desenvolvido seguindo o [curso online](https://
 
 Ao longo da playlist, o professor instrui a criação de uma Agenda de Contatos usando o Flutter, ensinando os fundamentos do Framework, da lógica de programação e boas práticas de programação ao longo dos vídeos 
 
+## Agenda - Funcionalidades
+
+- CRUD de contatos
+  - Verificação de dados  
+- Listagem de contatos cadastrados
+- Intregrações com APPs externos, capaz de acessar Telefone, SMS e E-mail a partir dos dados registrados no contato
+
 ## Conteúdos Aprendidos
 
 - Instalação, Configuração e Execução de Flutter, Git/GitHub e VSCode
@@ -18,4 +25,3 @@ Ao longo da playlist, o professor instrui a criação de uma Agenda de Contatos 
 - Gestão de Estado com MobX
 - Integração com APP externo - Telefone, SMS, E-mail
 - Integração com banco de dados FireStore/FireBase
-
